@@ -1,0 +1,460 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "clients.Main",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1008770331 { 
+   	label=orders
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Order1008770331[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Order</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   folders: ArrayList&lt;Folder&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- asString(basket: Basket): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ informOrderCollected(orderNum: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ informOrderPicked(orderNum: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ newOrder(bought: Basket)</TD></TR>
+<TR><TD ALIGN="LEFT" >- orderNums(inState: State): List&lt;Integer&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- orderNumsOldWay(inState: State): List&lt;Integer&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ uniqueNumber(): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+OrderX1008770331[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)OrderX</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   theBeingPickedTray: ArrayList&lt;Basket&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theToBeCollectedTray: ArrayList&lt;Basket&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theWaitingTray: ArrayList&lt;Basket&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- asString(basket: Basket): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ informOrderCollected(orderNum: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ informOrderPicked(orderNum: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ newOrder(bought: Basket)</TD></TR>
+<TR><TD ALIGN="LEFT" >- orderNos(queue: ArrayList&lt;Basket&gt;): List&lt;Integer&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ uniqueNumber(): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1074341483 { 
+   	label=middle
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   F_Order1074341483[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)F_Order</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   aR_Order: RemoteOrder_I [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theOrderURL: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- connect()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ informOrderCollected(orderNum: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ informOrderPicked(orderNum: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ newOrder(bought: Basket)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ uniqueNumber(): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+F_StockR1074341483[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)F_StockR</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   aR_StockR: RemoteStockR_I [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theStockURL: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- connect()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ exists(number: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getDetails(userInput: String): Product</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getImage(number: String): ImageIcon</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+F_StockRW1074341483[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)F_StockRW</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   aR_StockRW: RemoteStockRW_I [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theStockURL: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addStock(number: String, amount: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buyStock(number: String, amount: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- connect()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ modifyStock(detail: Product)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1218762626 { 
+   	label=dbAccess
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   StockR1218762626[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)StockR</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   theCon: Connection [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theStmt: Statement [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ exists(pNum: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getDetails(pNum: String): Product</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getImage(pNum: String): ImageIcon</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+StockRW1218762626[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)StockRW</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addStock(pNum: String, amount: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buyStock(pNum: String, amount: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ modifyStock(detail: Product)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1455934569 { 
+   	label=catalogue
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Basket1455934569[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Basket</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   theOrderNum: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(pr: Product): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Product1455934569[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Product</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   theDescription: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   thePrice: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theProductNum: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theQuantity: int [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_554986179 { 
+   	label=cashier
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   CashierModel132941603[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CashierModel</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   pn: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theBasket: Basket [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theOrder: OrderProcessing [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theProduct: Product [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theState: State [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   theStock: StockReadWriter [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ askForUpdate()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ doBought()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ doBuy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ doCheck(productNum: String)</TD></TR>
+<TR><TD ALIGN="LEFT" ># makeBasket(): Basket</TD></TR>
+<TR><TD ALIGN="LEFT" >- makeBasketIfReq()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_76453678 { 
+   	label=Order
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Folder397515035[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Folder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   basket: Basket [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   stateIs: State [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ newState(newState: State)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_860587528 { 
+   	label=clients
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Main860587528[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Main</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ begin()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startBackDoorGUI_MVC(mlf: MiddleFactory)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startCashierGUI_MVC(mlf: MiddleFactory)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startCollectionGUI_MVC(mlf: MiddleFactory)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startCustomerGUI_MVC(mlf: MiddleFactory)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startDisplayGUI_MVC(mlf: MiddleFactory)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startPickGUI_MVC(mlf: MiddleFactory)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startReturnsGUI_MVC(mlf: MiddleFactory)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_934610874 { 
+   	label=remote
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   R_Order934610874[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)R_Order</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   aOrder: Order [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ informOrderCollected(orderNum: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ informOrderPicked(orderNum: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ newOrder(bought: Basket)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ uniqueNumber(): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+R_StockR934610874[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)R_StockR</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   aStockR: StockR [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ exists(pNum: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getDetails(pNum: String): Product</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getImage(pNum: String): ImageIcon</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+R_StockRW934610874[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)R_StockRW</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   aStockRW: StockRW [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addStock(pNum: String, amount: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buyStock(pNum: String, amount: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ exists(pNum: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getDetails(pNum: String): Product</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getImage(pNum: String): ImageIcon</TD></TR>
+<TR><TD ALIGN="LEFT" >+ modifyStock(product: Product)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_95458899 { 
+   	label=debug
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   DEBUG95458899[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DEBUG</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ assertTrue(ok: boolean, fmt: String, params: Object...)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ error(fmt: String, params: Object...)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ revert()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ set(state: boolean): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ trace(fmt: String, params: Object...)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ traceA(fmt: String, params: Object...)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+'edges    
+CashierModel132941603 -> Basket1455934569[label="theBasket
+[0..*]"];
+CashierModel132941603 -> F_Order1074341483[arrowhead=none];
+CashierModel132941603 -> F_StockR1074341483[arrowhead=none];
+CashierModel132941603 -> F_StockRW1074341483[arrowhead=none];
+CashierModel132941603 -> Order1008770331[arrowhead=none];
+CashierModel132941603 -> OrderX1008770331[arrowhead=none];
+CashierModel132941603 -> Product1455934569[label="theProduct
+[0..1]"];
+CashierModel132941603 -> StockR1218762626[arrowhead=none];
+CashierModel132941603 -> StockRW1218762626[arrowhead=none];
+F_Order1074341483 -> R_Order934610874[arrowhead=none];
+F_StockR1074341483 -> F_StockRW1074341483[arrowhead=none, arrowtail=empty, dir=both];
+F_StockR1074341483 -> R_StockR934610874[arrowhead=none];
+Main860587528 -> CashierModel132941603[label="startCashierGUI_MVC() -> askForUpdate()"];
+Order1008770331 -> Folder397515035[label="folders
+[0..*]"];
+OrderX1008770331 -> Basket1455934569[label="theBeingPickedTray
+[0..*]"];
+OrderX1008770331 -> Basket1455934569[label="theToBeCollectedTray
+[0..*]"];
+OrderX1008770331 -> Basket1455934569[label="theWaitingTray
+[0..*]"];
+StockR1218762626 -> StockRW1218762626[arrowhead=none, arrowtail=empty, dir=both];
+    
+}
+@enduml
