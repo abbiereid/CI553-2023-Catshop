@@ -1,5 +1,7 @@
 package clients.shopDisplay;
 
+import clients.cashier.CashierModel;
+import clients.warehousePick.PickModel;
 import middle.MiddleFactory;
 import middle.OrderException;
 
@@ -21,38 +23,48 @@ import java.util.Observer;
 public class DisplayView extends Canvas implements Observer
 {
   private static final long serialVersionUID = 1L;
-  private Font font = new Font("Monospaced",Font.BOLD,24);
-  private int H = 300;         // Height of window 
-  private int W = 400;         // Width  of window 
+  private Font font = new Font("Monospaced",Font.BOLD,18);
+  private int H = 300;         // Height of window
+  private int W = 400;         // Width  of window
   private String textToDisplay = "";
   private DisplayController cont= null;
-  
+  private JScrollPane theSP   = new JScrollPane();
+  private JTextArea theOutput = new JTextArea();
+
   /**
    * Construct the view
    * @param rpc   Window in which to construct
    * @param mf    Factor to deliver order and stock objects
-   * @param x     x-coordinate of position of window on screen 
-   * @param y     y-coordinate of position of window on screen  
+   * @param x     x-coordinate of position of window on screen
+   * @param y     y-coordinate of position of window on screen
    */
-  
+
   public DisplayView(  RootPaneContainer rpc, MiddleFactory mf, int x, int y )
   {
     Container cp         = rpc.getContentPane();    // Content Pane
     Container rootWindow = (Container) rpc;         // Root Window
-    cp.setLayout( new BorderLayout() );             // Border N E S W CENTER 
-    rootWindow.setSize( W, H );                     // Size of Window  
+    cp.setLayout( new BorderLayout() );             // Border N E S W CENTER
+    rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );                 // Position on screen
     rootWindow.add( this, BorderLayout.CENTER );    //  Add to rootwindow
-    
+
+
+    theSP.setBounds( 110, 55, 270, 205 );           // Scrolling pane
+    theOutput.setText( "" );                        //  Blank
+    theOutput.setFont( font );                         //  Uses font
+    cp.add( theSP );                                //  Add to canvas
+    theSP.getViewport().add( theOutput );           //  In TextArea
     rootWindow.setVisible( true );                  // Make visible
+
+
   }
-  
-  
+
+
   public void setController( DisplayController c )
   {
     cont = c;
   }
-  
+
   /**
    * Called to update the display in the shop
    */
@@ -62,32 +74,45 @@ public class DisplayView extends Canvas implements Observer
     // Code to update the graphical display with the current
     //  state of the system
     //  Orders awaiting processing
-    //  Orders being picked in the 'warehouse. 
+    //  Orders being picked in the 'warehouse.
     //  Orders awaiting collection
-    
+
     try
     {
       Map<String, List<Integer> > res =
       ( (DisplayModel) aModelOfDisplay ).getOrderState();
 
-      textToDisplay = 
+      textToDisplay =
            "Orders in system" + "\n" +
-           "Waiting        : " + listOfOrders( res, "Waiting" ) + 
-           "\n"  + 
-           "Being picked   : " + listOfOrders( res, "BeingPicked" ) + 
-           "\n"  + 
-           "To Be Collected: " + listOfOrders( res, "ToBeCollected" );
+           "Waiting        : " + listOfOrders( res, "Waiting" ) +
+           "\n"  +
+           "Being picked   : " + listOfOrders( res, "BeingPicked" ) +
+           "\n"  +
+           "To Be Collected: " + listOfOrders( res, "ToBeCollected" ) +
+                   "\n" +
+                   "Total Income   : £ "+ CashierModel.getTotalIncome() +
+                   "\n" +
+                   "Late Picks     : "+ PickModel.getLatePicked() +
+                   "\n"+
+                   "Total Picks    : "+ PickModel.getTotalPicked() +
+                   "\n"+
+                   "Total Returns  : "+
+                   "\n"+
+                   "Overall Store Score: ";
+
+
     }
     catch ( OrderException err )
     {
       textToDisplay = "\n" + "** Communication Failure **";
     }
-    repaint();                            // Draw graphically    
+    theOutput.setText(textToDisplay);
+    repaint();                            // Draw graphically
   }
-  
+
   @Override
   public void update( Graphics g )        // Called by repaint
-  {                                       // 
+  {                                       //
     drawScreen( (Graphics2D) g );         // Draw information on screen
   }
 
@@ -95,17 +120,17 @@ public class DisplayView extends Canvas implements Observer
      * Redraw the screen double buffered
      * @param g Graphics context
      */
-  @Override 
-  public void paint( Graphics g )         // When 'Window' is first 
-  {                                       //  shown or damaged 
+  @Override
+  public void paint( Graphics g )         // When 'Window' is first
+  {                                       //  shown or damaged
     drawScreen( (Graphics2D) g );         // Draw information on screen
   }
 
   private Dimension     theAD;           // Alternate Dimension
   private BufferedImage theAI;           // Alternate Image
   private Graphics2D    theAG;           // Alternate Graphics
-  
-  public void drawScreen( Graphics2D g )  // Re draw contents 
+
+  public void drawScreen( Graphics2D g )  // Re draw contents
   {                                         //  allow resize
     Dimension d    = getSize();             // Size of image
 
@@ -120,28 +145,28 @@ public class DisplayView extends Canvas implements Observer
     drawActualScreen( theAG );            // draw
     g.drawImage( theAI, 0, 0, this );     // Now on screen
   }
-  
+
   /**
    * Redraw the screen
    * @param g Graphics context
    */
- 
-  public void drawActualScreen( Graphics2D g )  // Re draw contents 
+
+  public void drawActualScreen( Graphics2D g )  // Re draw contents
   {
-    g.setPaint( Color.white );            // Paint Colour 
+    g.setPaint( Color.white );            // Paint Colour
     W = getWidth(); H = getHeight();      // Current size
-    
+
     g.setFont( font );
     g.fill( new Rectangle2D.Double( 0, 0, W, H ) );
 
-    // Draw state of system on display
+    //Draw state of system on display
     String lines[] = textToDisplay.split("\n");
     g.setPaint( Color.black );
     for ( int i=0; i<lines.length; i++ )
     {
       g.drawString( lines[i], 0, 50 + 50*i );
     }
-    
+
   }
 
   /**

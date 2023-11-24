@@ -26,6 +26,7 @@ public class PickView implements Observer
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtPicked= new JButton( PICKED );
+  private final JLabel      theTimer = new JLabel();
  
   private OrderProcessing theOrder     = null;
   
@@ -64,6 +65,11 @@ public class PickView implements Observer
     theAction.setText( "" );                        // Blank
     cp.add( theAction );                            //  Add to canvas
 
+    theTimer.setBounds(250, 10, 200, 50);
+    theTimer.setForeground(Color.RED);
+    theTimer.setText( "" );
+    cp.add( theTimer );
+
     theSP.setBounds( 110, 55, 270, 205 );           // Scrolling pane
     theOutput.setText( "" );                        //  Blank
     theOutput.setFont( f );                         //  Uses font  
@@ -93,8 +99,11 @@ public class PickView implements Observer
     if ( basket != null )
     {
       theOutput.setText( basket.getDetails() );
+      int timeLeft = model.getTimer();
+      theTimer.setText("Time left to pick : "+ Integer.toString(timeLeft));
     } else {
       theOutput.setText("");
+      theTimer.setText("");
     }
   }
 

@@ -25,6 +25,11 @@ public class PickModel extends Observable
   
   private StateOf         worker   = new StateOf();
 
+  private  int  timer = 60;
+  private static int totalPicked = 0;
+  private static int latepicked = 0;
+  private boolean lateOrder = false;
+
   /*
    * Construct the model of the warehouse pick client
    * @param mf The factory to create the connection objects
@@ -43,6 +48,8 @@ public class PickModel extends Observable
     theBasket.set( null );                  // Initial Basket
     // Start a background check to see when a new order can be picked
     new Thread( () -> checkForNewOrder() ).start();
+    new Thread( () -> setTimer() ).start();
+
   }
   
   
@@ -94,13 +101,14 @@ public class PickModel extends Observable
           {                                  //  T
             theBasket.set(sb);               //   Working on
             theAction = "Order to pick";     //   what to do
+            timer = 60;
           } else {                           //  F
             worker.free();                   //  Free
             theAction = "";                  // 
           }
+        }
           setChanged(); notifyObservers(theAction);
-        }                                    // 
-        Thread.sleep(2000);                  // idle
+          Thread.sleep(2000);
       } catch ( Exception e )
       {
         DEBUG.error("%s\n%s",                // Eek!
@@ -136,8 +144,18 @@ public class PickModel extends Observable
         theOrder.informOrderPicked( no );     //  Tell system
         theAction = "";                       //  Inform picker
         worker.free();                        //  Can pick some more
-      } else {                                // F 
-        theAction = "No order to pick";       //   Not picked order
+        totalPicked++;
+        System.out.println(totalPicked);
+        lateOrder = false;
+
+      } else if (timer == 0) {
+        lateOrder = true;
+      } else if (lateOrder) {
+        latepicked++;
+        System.out.println(latepicked);
+      }
+      else {                                // F
+              theAction = "No order to pick";//   Not picked order
       }
       setChanged(); notifyObservers(theAction);
     }
@@ -147,6 +165,33 @@ public class PickModel extends Observable
                             e.getMessage() ); //  happen
     }
     setChanged(); notifyObservers(theAction);
+  }
+
+  public void setTimer() {
+    timer = 60;
+    while (timer > 0) {
+      try {
+        Thread.sleep(1000);
+        timer--;
+        setChanged();
+        notifyObservers(theAction);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+
+  public int getTimer() {
+    return timer;
+  }
+
+  public static int getTotalPicked() {
+    return totalPicked;
+  }
+
+  public static int getLatePicked() {
+    return latepicked;
   }
 }
 

@@ -11,6 +11,9 @@ import clients.collection.CollectView;
 import clients.customer.CustomerController;
 import clients.customer.CustomerModel;
 import clients.customer.CustomerView;
+import clients.returns.ReturnsController;
+import clients.returns.ReturnsModel;
+import clients.returns.ReturnsView;
 import clients.shopDisplay.DisplayController;
 import clients.shopDisplay.DisplayModel;
 import clients.shopDisplay.DisplayView;
@@ -22,6 +25,14 @@ import middle.MiddleFactory;
 
 import javax.swing.*;
 import java.awt.*;
+
+
+//Currently in the process of adding the emails to the cashier. So far the bar appears on only one cashier?? Also saves emails in
+//HashMap ith orderNumber so that info can be accessed in returns to confirm.
+//Need to make it so email field is required.
+//print hashmap to check
+//create reciepts
+//send receipt to email.
 
 
 /**
@@ -61,7 +72,8 @@ class Main
     startDisplayGUI_MVC( mlf );
     if ( many ) 
       startDisplayGUI_MVC( mlf );
-    startCollectionGUI_MVC( mlf );
+      startCollectionGUI_MVC( mlf );
+      startReturnsGUI_MVC( mlf );
   }
   
   public void startCustomerGUI_MVC(MiddleFactory mlf )
@@ -165,6 +177,22 @@ class Main
     CollectModel model      = new CollectModel(mlf);
     CollectView view        = new CollectView( window, mlf, pos.width, pos.height );
     CollectController cont  = new CollectController( model, view );
+    view.setController( cont );
+
+    model.addObserver( view );       // Add observer to the model
+    window.setVisible(true);         // Make window visible
+  }
+
+  public void startReturnsGUI_MVC(MiddleFactory mlf )
+  {
+    JFrame  window = new JFrame();
+    window.setTitle( "Returns Client MVC");
+    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    Dimension pos = PosOnScrn.getPos();
+
+    ReturnsModel model      = new ReturnsModel(mlf);
+    ReturnsView view        = new ReturnsView( window, mlf, pos.width, pos.height );
+    ReturnsController cont  = new ReturnsController( model, view );
     view.setController( cont );
 
     model.addObserver( view );       // Add observer to the model

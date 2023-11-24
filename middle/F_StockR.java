@@ -73,14 +73,14 @@ public class F_StockR implements StockReader
    * @return StockNumber, Description, Price, Quantity
    */
 
-  public synchronized Product getDetails( String number )
+  public synchronized Product getDetails(String userInput)
          throws StockException
   {
     DEBUG.trace("F_StockR:getDetails()" );
     try
     {
       if ( aR_StockR == null ) connect();
-      return aR_StockR.getDetails( number );
+      return aR_StockR.getDetails( userInput );
     } catch ( RemoteException e )
     {
       aR_StockR = null;

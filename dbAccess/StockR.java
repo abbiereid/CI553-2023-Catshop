@@ -23,8 +23,8 @@ import java.sql.*;
 //    no spaces after SQL statement ;
 
 /**
-  * Implements read only access to the stock database.
-  */
+ * Implements read only access to the stock database.
+ */
 public class StockR implements StockReader
 {
   private Connection theCon    = null;      // Connection to database
@@ -36,17 +36,17 @@ public class StockR implements StockReader
    * @throws StockException if problem
    */
   public StockR()
-         throws StockException
+          throws StockException
   {
     try
     {
       DBAccess dbDriver = (new DBAccessFactory()).getNewDBAccess();
       dbDriver.loadDriver();
-    
+
       theCon  = DriverManager.getConnection
-                  ( dbDriver.urlOfDatabase(), 
-                    dbDriver.username(), 
-                    dbDriver.password() );
+              ( dbDriver.urlOfDatabase(),
+                      dbDriver.username(),
+                      dbDriver.password() );
 
       theStmt = theCon.createStatement();
       theCon.setAutoCommit( true );
@@ -66,7 +66,7 @@ public class StockR implements StockReader
    * Returns a statement object that is used to process SQL statements
    * @return A statement object used to access the database
    */
-  
+
   protected Statement getStatementObject()
   {
     return theStmt;
@@ -89,18 +89,18 @@ public class StockR implements StockReader
    * @return true if exists otherwise false
    */
   public synchronized boolean exists( String pNum )
-         throws StockException
+          throws StockException
   {
-    
+
     try
     {
       ResultSet rs   = getStatementObject().executeQuery(
-        "select price from ProductTable " +
-        "  where  ProductTable.productNo = '" + pNum + "'"
+              "select price from ProductTable " +
+                      "  where  ProductTable.productNo = '" + pNum + "'"
       );
       boolean res = rs.next();
-      DEBUG.trace( "DB StockR: exists(%s) -> %s", 
-                    pNum, ( res ? "T" : "F" ) );
+      DEBUG.trace( "DB StockR: exists(%s) -> %s",
+              pNum, ( res ? "T" : "F" ) );
       return res;
     } catch ( SQLException e )
     {
@@ -115,16 +115,16 @@ public class StockR implements StockReader
    * @return Details in an instance of a Product
    */
   public synchronized Product getDetails( String pNum )
-         throws StockException
+          throws StockException
   {
     try
     {
       Product   dt = new Product( "0", "", 0.00, 0 );
       ResultSet rs = getStatementObject().executeQuery(
-        "select description, price, stockLevel " +
-        "  from ProductTable, StockTable " +
-        "  where  ProductTable.productNo = '" + pNum + "' " +
-        "  and    StockTable.productNo   = '" + pNum + "'"
+              "select description, price, stockLevel " +
+                      "  from ProductTable, StockTable " +
+                      "  where  ProductTable.productNo = '" + pNum + "' " +
+                      "  and    StockTable.productNo   = '" + pNum + "'"
       );
       if ( rs.next() )
       {
@@ -148,16 +148,16 @@ public class StockR implements StockReader
    * @return ImageIcon representing the image
    */
   public synchronized ImageIcon getImage( String pNum )
-         throws StockException
+          throws StockException
   {
-    String filename = "default.jpg";  
+    String filename = "default.jpg";
     try
     {
       ResultSet rs   = getStatementObject().executeQuery(
-        "select picture from ProductTable " +
-        "  where  ProductTable.productNo = '" + pNum + "'"
+              "select picture from ProductTable " +
+                      "  where  ProductTable.productNo = '" + pNum + "'"
       );
-      
+
       boolean res = rs.next();
       if ( res )
         filename = rs.getString( "picture" );
@@ -167,7 +167,7 @@ public class StockR implements StockReader
       DEBUG.error( "getImage()\n%s\n", e.getMessage() );
       throw new StockException( "SQL getImage: " + e.getMessage() );
     }
-    
+
     //DEBUG.trace( "DB StockR: getImage -> %s", filename );
     return new ImageIcon( filename );
   }

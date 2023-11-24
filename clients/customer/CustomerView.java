@@ -19,7 +19,7 @@ import java.util.Observer;
 
 public class CustomerView implements Observer
 {
-  class Name                              // Names of buttons
+  public class Name                              // Names of buttons
   {
     public static final String CHECK  = "Check";
     public static final String CLEAR  = "Clear";

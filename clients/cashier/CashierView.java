@@ -31,6 +31,8 @@ public class CashierView implements Observer
   private final JButton     theBtCheck = new JButton( CHECK );
   private final JButton     theBtBuy   = new JButton( BUY );
   private final JButton     theBtBought= new JButton( BOUGHT );
+  private static final JTextField emailInput = new JTextField();
+
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
@@ -85,13 +87,17 @@ public class CashierView implements Observer
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
 
-    theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
+    theSP.setBounds( 110, 100, 270, 120 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
     theOutput.setFont( f );                         //  Uses font  
     cp.add( theSP );                                //  Add to canvas
     theSP.getViewport().add( theOutput );           //  In TextArea
     rootWindow.setVisible( true );                  // Make visible
     theInput.requestFocus();                        // Focus is here
+
+    emailInput.setBounds(110,230,270,40);
+    emailInput.setText("");
+    cp.add(emailInput);
   }
 
   /**
@@ -122,6 +128,10 @@ public class CashierView implements Observer
       theOutput.setText( basket.getDetails() );
     
     theInput.requestFocus();               // Focus is here
+  }
+
+  public static String getEmail() {
+    return emailInput.getText();
   }
 
 }

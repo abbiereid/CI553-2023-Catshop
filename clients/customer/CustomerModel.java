@@ -33,17 +33,17 @@ public class CustomerModel extends Observable
    */
   public CustomerModel(MiddleFactory mf)
   {
-    try                                          // 
-    {  
+    try                                          //
+    {
       theStock = mf.makeStockReader();           // Database access
     } catch ( Exception e )
     {
       DEBUG.error("CustomerModel.constructor\n" +
-                  "Database not created?\n%s\n", e.getMessage() );
+              "Database not created?\n%s\n", e.getMessage() );
     }
     theBasket = makeBasket();                    // Initial Basket
   }
-  
+
   /**
    * return the Basket of products
    * @return the basket of products
@@ -69,28 +69,28 @@ public class CustomerModel extends Observable
       {                                         // T
         Product pr = theStock.getDetails( pn ); //  Product
         if ( pr.getQuantity() >= amount )       //  In stock?
-        { 
-          theAction =                           //   Display 
-            String.format( "%s : %7.2f (%2d) ", //
-              pr.getDescription(),              //    description
-              pr.getPrice(),                    //    price
-              pr.getQuantity() );               //    quantity
+        {
+          theAction =                           //   Display
+                  String.format( "%s : %7.2f (%2d) ", //
+                          pr.getDescription(),              //    description
+                          pr.getPrice(),                    //    price
+                          pr.getQuantity() );               //    quantity
           pr.setQuantity( amount );             //   Require 1
           theBasket.add( pr );                  //   Add to basket
           thePic = theStock.getImage( pn );     //    product
         } else {                                //  F
           theAction =                           //   Inform
-            pr.getDescription() +               //    product not
-            " not in stock" ;                   //    in stock
+                  pr.getDescription() +               //    product not
+                          " not in stock" ;                   //    in stock
         }
       } else {                                  // F
         theAction =                             //  Inform Unknown
-          "Unknown product number " + pn;       //  product number
+                "Unknown product number " + pn;       //  product number
       }
     } catch( StockException e )
     {
       DEBUG.error("CustomerClient.doCheck()\n%s",
-      e.getMessage() );
+              e.getMessage() );
     }
     setChanged(); notifyObservers(theAction);
   }
@@ -106,16 +106,16 @@ public class CustomerModel extends Observable
     thePic = null;                            // No picture
     setChanged(); notifyObservers(theAction);
   }
-  
+
   /**
    * Return a picture of the product
    * @return An instance of an ImageIcon
-   */ 
+   */
   public ImageIcon getPicture()
   {
     return thePic;
   }
-  
+
   /**
    * ask for update of view callled at start
    */
@@ -133,4 +133,3 @@ public class CustomerModel extends Observable
     return new Basket();
   }
 }
-
