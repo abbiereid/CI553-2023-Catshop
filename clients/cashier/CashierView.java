@@ -32,8 +32,8 @@ public class CashierView implements Observer
   private final JButton     theBtBuy   = new JButton( ADD );
   private final JButton     theBtBought= new JButton( BOUGHT );
   private static final JTextField emailInput = new JTextField();
-
-
+  private final JLabel      quantityLabel  = new JLabel("Quantity");
+  private final JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 50, 1));
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
   private CashierController cont       = null;
@@ -83,7 +83,7 @@ public class CashierView implements Observer
     theAction.setText( "" );                        // Blank
     cp.add( theAction );                            //  Add to canvas
 
-    theInput.setBounds( 110, 50, 270, 40 );         // Input Area
+    theInput.setBounds( 110, 50, 220, 40 );         // Input Area
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
 
@@ -98,6 +98,12 @@ public class CashierView implements Observer
     emailInput.setBounds(110,230,270,40);
     emailInput.setText("");
     cp.add(emailInput);
+
+    quantitySpinner.setBounds(330,50,50,40);
+    cp.add(quantitySpinner);
+
+    quantityLabel.setBounds(330,30,50,15);
+    cp.add(quantityLabel);
   }
 
   /**
