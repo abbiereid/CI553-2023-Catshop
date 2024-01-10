@@ -103,7 +103,8 @@ public class CashierModel extends Observable {
    */
   public void doBuy() {
     String theAction = "";
-    int amount = 1;                         //  & quantity
+    int amount = CashierView.getQuantity();
+
     try {
       if (theState != State.checked)          // Not checked
       {                                         //  with customer
