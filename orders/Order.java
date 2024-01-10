@@ -182,25 +182,8 @@ public class Order implements OrderProcessing
     res.put( "Waiting",       orderNums(State.Waiting) );
     res.put( "BeingPicked",   orderNums(State.BeingPicked) );
     res.put( "ToBeCollected", orderNums(State.ToBeCollected) );
+    //add collected
 
-    return res;
-  }
-
-  /**
-   * Return the list of order numbers in selected state
-   * @param inState The state to find order numbers in
-   * @return A list of order numbers
-   */
-  private List<Integer> orderNumsOldWay( State inState )
-  {
-    List <Integer> res = new ArrayList<>();
-    for ( Folder folder : folders )
-    {
-      if ( folder.getState() == inState )
-      {
-       res.add( folder.getBasket().getOrderNum() );
-      }
-    }
     return res;
   }
 

@@ -26,15 +26,6 @@ import middle.MiddleFactory;
 import javax.swing.*;
 import java.awt.*;
 
-
-//Currently in the process of adding the emails to the cashier. So far the bar appears on only one cashier?? Also saves emails in
-//HashMap ith orderNumber so that info can be accessed in returns to confirm.
-//Need to make it so email field is required.
-//print hashmap to check
-//create reciepts
-//send receipt to email.
-
-
 /**
  * Starts all the clients  as a single application.
  * Good for testing the system using a single application but no use of RMI.

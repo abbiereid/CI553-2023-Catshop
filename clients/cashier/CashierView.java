@@ -21,7 +21,7 @@ public class CashierView implements Observer
   private static final int W = 400;       // Width  of window pixels
   
   private static final String CHECK  = "Check";
-  private static final String BUY    = "Buy";
+  private static final String ADD    = "Add";
   private static final String BOUGHT = "Bought";
 
   private final JLabel      theAction  = new JLabel();
@@ -29,7 +29,7 @@ public class CashierView implements Observer
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( CHECK );
-  private final JButton     theBtBuy   = new JButton( BUY );
+  private final JButton     theBtBuy   = new JButton( ADD );
   private final JButton     theBtBought= new JButton( BOUGHT );
   private static final JTextField emailInput = new JTextField();
 

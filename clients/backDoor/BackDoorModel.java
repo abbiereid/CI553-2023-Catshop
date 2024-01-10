@@ -17,8 +17,8 @@ import java.util.Observable;
  */
 public class BackDoorModel extends Observable
 {
-  private Basket      theBasket  = null;            // Bought items
-  private String      pn = "";                      // Product being processed
+  private static Basket      theBasket  = null;            // Bought items
+  private static String      pn = "";                      // Product being processed
 
   private StockReadWriter theStock     = null;
 
@@ -92,7 +92,7 @@ public class BackDoorModel extends Observable
    * @param productNum The product number of the item
    * @param quantity How many to be added
    */
-  public void doRStock(String productNum, String quantity )
+  public void doRStock(String productNum, String quantity)
   {
     String theAction = "";
     theBasket = makeBasket();
@@ -147,7 +147,7 @@ public class BackDoorModel extends Observable
    * return an instance of a Basket
    * @return a new instance of a Basket
    */
-  protected Basket makeBasket()
+  protected static Basket makeBasket()
   {
     return new Basket();
   }

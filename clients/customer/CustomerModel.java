@@ -65,7 +65,7 @@ public class CustomerModel extends Observable
     int    amount  = 1;                         //  & quantity
     try
     {
-      if ( theStock.exists( pn ) )              // Stock Exists?
+      if ( theStock.exists( pn ))              // Stock Exists?
       {                                         // T
         Product pr = theStock.getDetails( pn ); //  Product
         if ( pr.getQuantity() >= amount )       //  In stock?

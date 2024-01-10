@@ -1,6 +1,8 @@
 package clients.returns;
 
 import catalogue.Product;
+import clients.Receipt;
+import clients.backDoor.BackDoorModel;
 import clients.cashier.CashierModel;
 import debug.DEBUG;
 import middle.*;
@@ -52,11 +54,27 @@ public class ReturnsModel extends Observable {
   }
 
   public void doReturn(String orderNumber) throws StockException {
+    Receipt theReceipt = null;
     String on = orderNumber.trim();
+    ArrayList<Receipt> receipts = CashierModel.getReceipts();
 
+    for(Receipt receipt : receipts) {
+      if (receipt.getOrderNumber().equals(on)) {
+        theReceipt = receipt;
+        break;
+      }
+    }
 
+    ArrayList<String> productNumbers = theReceipt.getProductNumbers();
+    double price = theReceipt.getPrice();
+
+    CashierModel.minusTotalIncome((int) price);
+
+    for (String pn : productNumbers) {
+      theStock.addStock(pn, 1);
+      setChanged();
+    }
   }
-
 
   public String getResults() {
     return results;

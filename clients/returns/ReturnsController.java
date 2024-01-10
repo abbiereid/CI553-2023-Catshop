@@ -30,7 +30,7 @@ public class ReturnsController
   public void doSearch( String orderNum ) throws StockException { model.doSearch(orderNum);
   }
 
-  public void doReturn(String orderNum) throws StockException { model.doSearch(orderNum);
+  public void doReturn(String orderNum) throws StockException { model.doReturn(orderNum);
   }
 }
 

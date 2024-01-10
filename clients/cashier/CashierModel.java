@@ -2,10 +2,10 @@ package clients.cashier;
 
 import catalogue.Basket;
 import catalogue.Product;
-import clients.shopDisplay.DisplayModel;
+import clients.Receipt;
 import debug.DEBUG;
 import middle.*;
-
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.HashMap;
 
@@ -29,8 +29,8 @@ public class CashierModel extends Observable {
   private static int totalIncome = 0;
   private static String customerEmail = "";
 
-  private HashMap<String,String> emails = new HashMap<>();
-
+  private static ArrayList<Receipt> receipts = new ArrayList<>();
+  ArrayList<String> productNumbers = new ArrayList<>();
   /**
    * Construct the model of the Cashier
    *
@@ -114,6 +114,7 @@ public class CashierModel extends Observable {
                   theStock.buyStock(                    //  however
                           theProduct.getProductNum(),         //  may fail
                           theProduct.getQuantity());         //
+          productNumbers.add(theProduct.getProductNum());
           if (stockBought)                      // Stock bought
           {                                       // T
             makeBasketIfReq();                    //  new Basket ?
@@ -126,7 +127,7 @@ public class CashierModel extends Observable {
             theAction = "!!! Not in stock";       //  Now no stock
           }
         } else {
-          theAction = "Please take Customer's Email for the Receipt";
+          theAction = "Please take Customer's Email for their Receipt";
         }
       }
       } catch(StockException e){
@@ -148,13 +149,13 @@ public class CashierModel extends Observable {
     int amount = 1;                       //  & quantity
     try {
       if (theBasket != null &&
-              theBasket.size() >= 1)            // items > 1
+              !theBasket.isEmpty())            // items > 1
       {                                       // T
         theOrder.newOrder(theBasket);       //  Process order
         int on = theBasket.getOrderNum();
         orderList.put(String.valueOf(on), pn);
         customerEmail = CashierView.getEmail();
-        emails.put(String.valueOf(on),customerEmail);
+        generateReceipt(customerEmail,String.valueOf(on));
         theBasket = null;                     //  reset
       }                                       //
       theAction = "Next customer";            // New Customer
@@ -164,13 +165,14 @@ public class CashierModel extends Observable {
       DEBUG.error("%s\n%s",
               "CashierModel.doCancel", e.getMessage());
       theAction = e.getMessage();
+    } catch (StockException e) {
+        throw new RuntimeException(e);
     }
-    theBasket = null;
+      theBasket = null;
     setChanged();
     notifyObservers(theAction); // Notify
-  }
-
-  /**
+    productNumbers.clear();
+} /**
    * ask for update of view callled at start of day
    * or after system reset
    */
@@ -211,6 +213,31 @@ public class CashierModel extends Observable {
 
   public static int getTotalIncome() {
     return totalIncome;
+  }
+
+  public static void minusTotalIncome(int amount) {  totalIncome = totalIncome - amount; }
+
+  public void generateReceipt(String email, String orderNumber) throws StockException {
+    Product pr;
+    double price = 0;
+    ArrayList<String> products = new ArrayList<>();
+
+  for (String pn : productNumbers) {
+      pr = theStock.getDetails(pn);
+      products.add(pr.getDescription());
+      price = price + pr.getPrice();
+  }
+
+    Receipt theReceipt = new Receipt(email,orderNumber,price,products,productNumbers);
+
+    theReceipt.printReceipt();
+
+    receipts.add(theReceipt);
+
+  }
+
+  public static ArrayList<Receipt> getReceipts() {
+    return receipts;
   }
 
 }
