@@ -104,29 +104,28 @@ public class CashierModel extends Observable {
   public void doBuy() {
     String theAction = "";
     int amount = CashierView.getQuantity();
-
+    theProduct.setQuantity(amount);
     try {
       if (theState != State.checked)          // Not checked
       {                                         //  with customer
         theAction = "Check if OK with customer first";
       } else {
         if (CashierView.getEmail() != null) {
-          boolean stockBought =                   // Buy
-                  theStock.buyStock(                    //  however
-                          theProduct.getProductNum(),         //  may fail
-                          theProduct.getQuantity());         //
-          productNumbers.add(theProduct.getProductNum());
-          if (stockBought)                      // Stock bought
-          {                                       // T
-            makeBasketIfReq();                    //  new Basket ?
-            theBasket.add(theProduct);          //  Add to bought
-            int price = (int) theProduct.getPrice();
-            totalIncome = totalIncome + price;
-            theAction = "Purchased " +            //    details
-                    theProduct.getDescription();  //
-          } else {                                // F
-            theAction = "!!! Not in stock";       //  Now no stock
-          }
+              boolean  stockBought = theStock.buyStock(                    //  however
+                        theProduct.getProductNum(),         //  may fail
+                        theProduct.getQuantity());
+                productNumbers.add(theProduct.getProductNum());
+            if (stockBought)                      // Stock bought
+            {                                       // T
+                makeBasketIfReq();                    //  new Basket ?
+                theBasket.add(theProduct);          //  Add to bought
+                int price = (int) theProduct.getPrice();
+                totalIncome = totalIncome + price;
+                theAction = "Purchased " +            //    details
+                        theProduct.getDescription();  //
+            } else {                                // F
+                theAction = "!!! Not in stock";       //  Now no stock
+            }
         } else {
           theAction = "Please take Customer's Email for their Receipt";
         }
@@ -147,7 +146,6 @@ public class CashierModel extends Observable {
    */
   public void doBought() {
     String theAction = "";
-    int amount = 1;                       //  & quantity
     try {
       if (theBasket != null &&
               !theBasket.isEmpty())            // items > 1
@@ -239,6 +237,12 @@ public class CashierModel extends Observable {
 
   public static ArrayList<Receipt> getReceipts() {
     return receipts;
+  }
+
+  public void doCancel() {
+    String theAction = "Next Customer";
+    theBasket.clear();
+    setChanged(); notifyObservers(theAction);
   }
 
 }

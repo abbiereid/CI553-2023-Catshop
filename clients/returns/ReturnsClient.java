@@ -1,22 +1,12 @@
 package clients.returns;
 
-import middle.MiddleFactory;
-import middle.Names;
-import middle.RemoteMiddleFactory;
+import middle.*;
 
 import javax.swing.*;
 
-/**
- * The standalone Collection Client.
- * @author  Mike Smith University of Brighton
- * @version 2.0
- */
-
-
 public class ReturnsClient
 {
-   public static void main (String args[])
-   {
+   public static void main (String args[]) throws StockException, OrderException {
      String stockURL = args.length < 1     // URL of stock RW
                      ? Names.STOCK_RW      //  default  location
                      : args[0];            //  supplied location
@@ -30,8 +20,7 @@ public class ReturnsClient
     displayGUI(mrf);                       // Create GUI
   }
   
-  private static void displayGUI(MiddleFactory mf)
-  {     
+  private static void displayGUI(MiddleFactory mf) throws StockException, OrderException {
     JFrame  window = new JFrame();
 		     
     window.setTitle( "Returns Client (MVC RMI)");

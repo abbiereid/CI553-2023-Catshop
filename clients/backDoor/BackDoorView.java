@@ -31,6 +31,11 @@ public class BackDoorView implements Observer
   private final JButton     theBtClear = new JButton( CLEAR );
   private final JButton     theBtRStock = new JButton( RESTOCK );
   private final JButton     theBtQuery = new JButton( QUERY );
+
+  private final Color green = new Color(62,229,17);
+  private final Color red = new Color(255,0,0);
+  private final Color yellow = new Color(255,255,0);
+
   
   private StockReadWriter theStock     = null;
   private BackDoorController cont= null;
@@ -59,18 +64,21 @@ public class BackDoorView implements Observer
     
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
-    theBtQuery.setBounds( 16, 25+60*0, 80, 40 );    // Buy button 
+    theBtQuery.setBounds( 16, 25+60*0, 80, 40 );    // Buy button
+    theBtQuery.setBackground(yellow);
     theBtQuery.addActionListener(                   // Call back code
       e -> cont.doQuery( theInput.getText() ) );
     cp.add( theBtQuery );                           //  Add to canvas
 
     theBtRStock.setBounds( 16, 25+60*1, 80, 40 );   // Check Button
+    theBtRStock.setBackground(green);
     theBtRStock.addActionListener(                  // Call back code
       e -> cont.doRStock( theInput.getText(),
                           theInputNo.getText() ) );
     cp.add( theBtRStock );                          //  Add to canvas
 
-    theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Buy button 
+    theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Buy button
+    theBtClear.setBackground(red);
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
     cp.add( theBtClear );                           //  Add to canvas

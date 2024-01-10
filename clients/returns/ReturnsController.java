@@ -32,6 +32,8 @@ public class ReturnsController
 
   public void doReturn(String orderNum) throws StockException { model.doReturn(orderNum);
   }
+
+  public void doClear() { model.doClear(); }
 }
 
 

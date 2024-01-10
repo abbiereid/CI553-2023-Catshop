@@ -22,6 +22,8 @@ import clients.warehousePick.PickModel;
 import clients.warehousePick.PickView;
 import middle.LocalMiddleFactory;
 import middle.MiddleFactory;
+import middle.OrderException;
+import middle.StockException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,20 +36,18 @@ import java.awt.*;
  */
 class Main
 {
-  // Change to false to reduce the number of duplicated clients
+  // Change too false to reduce the number of duplicated clients
 
   private final static boolean many = false;        // Many clients? (Or minimal clients)
 
-  public static void main (String args[])
-  {
+  public static void main (String args[]) throws StockException, OrderException {
     new Main().begin();
   }
 
   /**
    * Starts test system (Non distributed)
    */
-  public void begin()
-  {
+  public void begin() throws StockException, OrderException {
     //DEBUG.set(true); /* Lots of debug info */
     MiddleFactory mlf = new LocalMiddleFactory();  // Direct access
  
@@ -174,8 +174,7 @@ class Main
     window.setVisible(true);         // Make window visible
   }
 
-  public void startReturnsGUI_MVC(MiddleFactory mlf )
-  {
+  public void startReturnsGUI_MVC(MiddleFactory mlf ) throws StockException, OrderException {
     JFrame  window = new JFrame();
     window.setTitle( "Returns Client MVC");
     window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

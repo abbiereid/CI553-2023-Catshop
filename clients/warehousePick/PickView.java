@@ -31,6 +31,8 @@ public class PickView implements Observer
   private OrderProcessing theOrder     = null;
   
   private PickController cont= null;
+  private final Color green = new Color(62,229,17);
+
 
   /**
    * Construct the view
@@ -57,6 +59,7 @@ public class PickView implements Observer
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
     theBtPicked.setBounds( 16, 25+60*0, 80, 40 );   // Check Button
+    theBtPicked.setBackground(green);
     theBtPicked.addActionListener(                   // Call back code
       e -> cont.doPick() );
     cp.add( theBtPicked );                          //  Add to canvas

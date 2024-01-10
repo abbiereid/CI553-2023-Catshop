@@ -1,6 +1,7 @@
 package clients.shopDisplay;
 
 import clients.cashier.CashierModel;
+import clients.returns.ReturnsModel;
 import clients.warehousePick.PickModel;
 import middle.MiddleFactory;
 import middle.OrderException;
@@ -96,9 +97,7 @@ public class DisplayView extends Canvas implements Observer
                    "\n"+
                    "Total Picks    : "+ PickModel.getTotalPicked() +
                    "\n"+
-                   "Total Returns  : "+
-                   "\n"+
-                   "Overall Store Score: ";
+                   "Total Returns  : "+ ReturnsModel.getNumberOfReturns();
 
 
     }

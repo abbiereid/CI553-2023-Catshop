@@ -1,5 +1,8 @@
 package clients.shopDisplay;
 
+import clients.cashier.CashierModel;
+import clients.returns.ReturnsModel;
+import clients.warehousePick.PickModel;
 import debug.DEBUG;
 import middle.MiddleFactory;
 import middle.OrderException;
@@ -65,5 +68,6 @@ public class DisplayModel extends Observable {
             throws OrderException {
         return theOrder.getOrderState();
     }
+
 
 }

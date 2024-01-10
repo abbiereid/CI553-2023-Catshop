@@ -19,17 +19,15 @@ public class ReturnsModel extends Observable {
   private String theAction = "";
   private String theOutput = "";
   private OrderProcessing theOrder = null;
-  private HashMap<String, String> orderList = CashierModel.getOrderList(); // New list to store collected orders
+  private HashMap<String, String> orderList = CashierModel.getOrderList();
   private StockReadWriter theStock = null;
   private String results = "";
+  private static int numberOfReturns;
 
-  public ReturnsModel(MiddleFactory mf) {
-    try {
+
+  public ReturnsModel(MiddleFactory mf) throws StockException, OrderException {
       theOrder = mf.makeOrderProcessing();
       theStock = mf.makeStockReadWriter();
-    } catch (Exception e) {
-      DEBUG.error("%s\n%s", "CollectModel.constructor\n%s", e.getMessage());
-    }
   }
 
   public void doSearch(String orderNumber) throws StockException {
@@ -37,14 +35,12 @@ public class ReturnsModel extends Observable {
 
 
     if (orderList.containsKey(on)) {
-      // Order found in collected orders
       String pn = orderList.get(on);
       Product pr = theStock.getDetails(pn);
       results = "Order Number "+ on + ": " + pr.getDescription() + " , £" + pr.getPrice();
       theAction = "Results: ";
       theOutput = theAction;
     }  else {
-      // Order not found in collected orders
       theAction = "Order #" + on + " not found in collected orders";
       theOutput = theAction;
     }
@@ -74,10 +70,20 @@ public class ReturnsModel extends Observable {
       theStock.addStock(pn, 1);
       setChanged();
     }
+
+    numberOfReturns++;
+    doClear();
   }
 
   public String getResults() {
     return results;
+  }
+
+  public static int getNumberOfReturns() { return numberOfReturns; }
+
+  public void doClear() {
+    results = "";
+    setChanged(); notifyObservers(theAction);
   }
 
 }

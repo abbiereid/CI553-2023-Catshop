@@ -13,6 +13,7 @@ import java.util.List;
 public class ReturnsView implements Observer {
     private static final String SEARCH = "Search";
     private static final String RETURN = "Return";
+    private static final String CLEAR = "Clear";
 
     private static final int H = 300;       // Height of window pixels
     private static final int W = 400;       // Width  of window pixels
@@ -23,6 +24,10 @@ public class ReturnsView implements Observer {
     private final JScrollPane theSP = new JScrollPane();
     private final JButton theBtSearch = new JButton(SEARCH);
     private final JButton theBtReturn = new JButton(RETURN);
+    private final JButton theBtClear = new JButton(CLEAR);
+    private final Color red = new Color(255,0,0);
+    private final Color blue = new Color(0,255,216);
+    private final Color yellow = new Color(255,255,0);
 
     private OrderProcessing theOrder = null;
     private ReturnsController cont = null;
@@ -42,6 +47,7 @@ public class ReturnsView implements Observer {
         Font f = new Font("Monospaced", Font.PLAIN, 12);
 
         theBtSearch.setBounds(16, 25, 80, 40);
+        theBtSearch.setBackground(blue);
         theBtSearch.addActionListener(
                 e -> {
                     try {
@@ -53,6 +59,7 @@ public class ReturnsView implements Observer {
         cp.add(theBtSearch);
 
         theBtReturn.setBounds(16, 75,80,40);
+        theBtReturn.setBackground(red);
         theBtReturn.addActionListener(
                 e -> {
                     try {
@@ -62,6 +69,14 @@ public class ReturnsView implements Observer {
                     }
                 });
         cp.add(theBtReturn);
+
+        theBtClear.setBounds(16, 125,80,40);
+        theBtClear.setBackground(yellow);
+        theBtClear.addActionListener(
+                e -> {
+                    cont.doClear();
+                });
+        cp.add(theBtClear);
 
         theAction.setBounds(110, 25, 270, 20);
         theAction.setText("");

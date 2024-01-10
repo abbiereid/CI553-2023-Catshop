@@ -34,10 +34,7 @@ public class CashierController
    /**
    * Buy interaction from view
    */
-  public void doBuy()
-  {
-    model.doBuy();
-  }
+  public void doBuy() { model.doBuy(); }
   
    /**
    * Bought interaction from view
@@ -45,5 +42,9 @@ public class CashierController
   public void doBought()
   {
     model.doBought();
+  }
+
+  public void doCancel() {
+    model.doCancel();
   }
 }
