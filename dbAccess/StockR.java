@@ -114,7 +114,7 @@ public class StockR implements StockReader
     {
       ResultSet rs   = getStatementObject().executeQuery(
               "select price from ProductTable " +
-                      "  where  ProductTable.description = '" + desc + "'"
+                      "  where LOWER(ProductTable.description) LIKE LOWER('%" + desc + "%')"
       );
       boolean res = rs.next();
       DEBUG.trace( "DB StockR: exists(%s) -> %s",
@@ -159,6 +159,30 @@ public class StockR implements StockReader
     }
   }
 
+
+  public synchronized Product getDetailsByName( String desc )
+          throws StockException
+  {
+    try
+    {
+      Product   dt = new Product( "0", "", 0.00, 0 );
+      ResultSet rs = getStatementObject().executeQuery(
+              "select * " + " from ProductTable, StockTable " + " where ProductTable.description LIKE '" + desc + "' "
+      );
+      if ( rs.next() )
+      {
+        dt.setProductNum(rs.getString("productNo"));
+        dt.setDescription(rs.getString( "description" ) );
+        dt.setPrice( rs.getDouble( "price" ) );
+        dt.setQuantity( rs.getInt( "stockLevel" ) );
+      }
+      rs.close();
+      return dt;
+    } catch ( SQLException e )
+    {
+      throw new StockException( "SQL getDetails: " + e.getMessage() );
+    }
+  }
   /**
    * Returns 'image' of the product
    * @param pNum The product number

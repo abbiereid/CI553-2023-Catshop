@@ -50,6 +50,12 @@ public class      R_StockRW
     return aStockRW.exists( pNum );
   }
 
+  public synchronized boolean existsByName( String userInput )
+          throws StockException
+  {
+    return aStockRW.exists( userInput );
+  }
+
   /**
    * Returns details about the product in the stock list
    * @param pNum The product number
@@ -60,6 +66,12 @@ public class      R_StockRW
          throws StockException
   {
     return aStockRW.getDetails( pNum );
+  }
+
+  public synchronized Product getDetailsByName( String userInput )
+          throws StockException
+  {
+    return aStockRW.getDetails( userInput );
   }
 
   /**

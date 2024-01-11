@@ -18,8 +18,12 @@ public interface RemoteStockR_I
 {
   boolean   exists(String number)
             throws RemoteException, StockException;
+  boolean   existsByName(String userInput)
+          throws RemoteException, StockException;
   Product   getDetails(String number)
             throws RemoteException, StockException;
+  Product   getDetailsByName(String userInput)
+          throws RemoteException, StockException;
   ImageIcon getImage(String number)
             throws RemoteException, StockException;
 }

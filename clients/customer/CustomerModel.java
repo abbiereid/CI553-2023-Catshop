@@ -55,44 +55,84 @@ public class CustomerModel extends Observable
 
   /**
    * Check if the product is in Stock
-   * @param productNum The product number
+   * @param userInput The product number
    */
-  public void doCheck(String userInput )
-  {
-    theBasket.clear();                          // Clear s. list
+  public void doCheck(String userInput) {
+    String searchBy = CustomerView.getSearchByChoice();
+    Product pr;
     String theAction = "";
-    pn  = userInput.trim();                    // Product no.
-    int    amount  = 1;                         //  & quantity
-    try
-    {
-      if ( theStock.exists( pn ) || theStock.existsByName(userInput))              // Stock Exists?
-      {                                         // T
-        Product pr = theStock.getDetails( pn ); //  Product
-        if ( pr.getQuantity() >= amount )       //  In stock?
-        {
-          theAction =                           //   Display
-                  String.format( "%s : %7.2f (%2d) ", //
-                          pr.getDescription(),              //    description
-                          pr.getPrice(),                    //    price
-                          pr.getQuantity() );               //    quantity
-          pr.setQuantity( amount );             //   Require 1
-          theBasket.add( pr );                  //   Add to basket
-          thePic = theStock.getImage( pn );     //    product
-        } else {                                //  F
-          theAction =                           //   Inform
-                  pr.getDescription() +               //    product not
-                          " not in stock" ;                   //    in stock
+    theBasket.clear();
+    int amount = 1;
+
+    switch (searchBy) {
+      case "Product Number":
+        pn = userInput.trim();                    // Product no.
+
+        try {
+          if (theStock.exists(pn))              // Stock Exists?
+          {                                         // T
+            pr = theStock.getDetails(pn); //  Product
+            if (pr.getQuantity() >= amount)       //  In stock?
+            {
+              theAction =                           //   Display
+                      String.format("%s : %7.2f (%2d) ", //
+                              pr.getDescription(),              //    description
+                              pr.getPrice(),                    //    price
+                              pr.getQuantity());               //    quantity
+              pr.setQuantity(amount);             //   Require 1
+              theBasket.add(pr);                  //   Add to basket
+              thePic = theStock.getImage(pn);     //    product
+            } else {                                //  F
+              theAction =                           //   Inform
+                      pr.getDescription() +               //    product not
+                              " not in stock";                   //    in stock
+            }
+          } else {                                  // F
+            theAction =                             //  Inform Unknown
+                    "Unknown product number " + pn;       //  product number
+          }
+        } catch (StockException e) {
+          DEBUG.error("CustomerClient.doCheck()\n%s",
+                  e.getMessage());
         }
-      } else {                                  // F
-        theAction =                             //  Inform Unknown
-                "Unknown product number " + pn;       //  product number
-      }
-    } catch( StockException e )
-    {
-      DEBUG.error("CustomerClient.doCheck()\n%s",
-              e.getMessage() );
+        setChanged();
+        notifyObservers(theAction);
+        break;
+
+      case "Product Name":
+        pn = userInput.trim();                    // Product no.
+        try {
+          if (theStock.existsByName(userInput))              // Stock Exists?
+          {                                         // T
+            pr = theStock.getDetailsByName(userInput); //  Product
+            if (pr.getQuantity() >= amount)       //  In stock?
+            {
+              theAction =                           //   Display
+                      String.format("%s : %7.2f (%2d) ", //
+                              pr.getDescription(),              //    description
+                              pr.getPrice(),                    //    price
+                              pr.getQuantity());               //    quantity
+              pr.setQuantity(amount);             //   Require 1
+              theBasket.add(pr);                  //   Add to basket
+              String ProductNumber = pr.getProductNum();
+              thePic = theStock.getImage(ProductNumber);     //    product
+            } else {                                //  F
+              theAction =                           //   Inform
+                      pr.getDescription() +               //    product not
+                              " not in stock";                   //    in stock
+            }
+          } else {                                  // F
+            theAction =                             //  Inform Unknown
+                    "Unknown product " + userInput;       //  product number
+          }
+        } catch (StockException e) {
+          DEBUG.error("CustomerClient.doCheck()\n%s",
+                  e.getMessage());
+        }
+        setChanged();
+        notifyObservers(theAction);
+        break;
     }
-    setChanged(); notifyObservers(theAction);
   }
 
   /**

@@ -19,11 +19,8 @@ import java.util.Observer;
 
 public class CustomerView implements Observer
 {
-  public class Name                              // Names of buttons
-  {
-    public static final String CHECK  = "Check";
-    public static final String CLEAR  = "Clear";
-  }
+  public static final String CHECK  = "Check";
+  public static final String CLEAR  = "Clear";
 
   private static final int H = 300;       // Height of window pixels
   private static final int W = 400;       // Width  of window pixels
@@ -32,8 +29,10 @@ public class CustomerView implements Observer
   private final JTextField  theInput   = new JTextField();
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
-  private final JButton     theBtCheck = new JButton( Name.CHECK );
-  private final JButton     theBtClear = new JButton( Name.CLEAR );
+  private final JButton     theBtCheck = new JButton( CHECK );
+  private final JButton     theBtClear = new JButton( CLEAR );
+  private static final String[] searchByOptions = {"Product Number","Product Name"};
+  private static final JComboBox searchBy = new JComboBox<>(searchByOptions);
 
   private final Color red = new Color(255,0,0);
   private final Color blue = new Color(0,255,216);
@@ -83,11 +82,11 @@ public class CustomerView implements Observer
     theAction.setText( "" );                        //  Blank
     cp.add( theAction );                            //  Add to canvas
 
-    theInput.setBounds( 110, 50, 270, 40 );         // Product no area
+    theInput.setBounds( 110, 50, 190, 40 );         // Product no area
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
     
-    theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
+    theSP.setBounds( 110, 100, 200, 160 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
     theOutput.setFont( f );                         //  Uses font  
     cp.add( theSP );                                //  Add to canvas
@@ -96,6 +95,9 @@ public class CustomerView implements Observer
     thePicture.setBounds( 16, 25+60*2, 80, 80 );   // Picture area
     cp.add( thePicture );                           //  Add to canvas
     thePicture.clear();
+
+    searchBy.setBounds(310,50,100,40);
+    cp.add(searchBy);
     
     rootWindow.setVisible( true );                  // Make visible);
     theInput.requestFocus();                        // Focus is here
@@ -133,4 +135,5 @@ public class CustomerView implements Observer
     theInput.requestFocus();               // Focus is here
   }
 
+  public static String getSearchByChoice() { return (String) searchBy.getSelectedItem(); }
 }

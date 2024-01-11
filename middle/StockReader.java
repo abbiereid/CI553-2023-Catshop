@@ -33,7 +33,7 @@ public interface StockReader {
 
  Product getDetails(String userInput) throws StockException;
 
-
+ Product getDetailsByName(String userInput) throws StockException;
  /**
   * Returns an image of the product in the stock list
   *

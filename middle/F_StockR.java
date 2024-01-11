@@ -101,8 +101,23 @@ public class F_StockR implements StockReader
       throw new StockException( "Net: " + e.getMessage() );
     }
   }
-  
-  
+
+  public synchronized Product getDetailsByName(String userInput)
+          throws StockException
+  {
+    DEBUG.trace("F_StockR:getDetailsByName()" );
+    try
+    {
+      if ( aR_StockR == null ) connect();
+      return aR_StockR.getDetailsByName( userInput );
+    } catch ( RemoteException e )
+    {
+      aR_StockR = null;
+      throw new StockException( "Net: " + e.getMessage() );
+    }
+  }
+
+
   public synchronized ImageIcon getImage( String number )
          throws StockException
   {
