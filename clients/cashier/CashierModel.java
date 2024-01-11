@@ -239,8 +239,16 @@ public class CashierModel extends Observable {
     return receipts;
   }
 
-  public void doCancel() {
+  public void doCancel() throws StockException {
     String theAction = "Next Customer";
+
+    for (String pn:productNumbers) {
+      theStock.addStock(pn,1);
+      Product pr = theStock.getDetails(pn);
+      double price = pr.getPrice();
+      totalIncome = (int) (totalIncome - price);
+    }
+
     theBasket.clear();
     setChanged(); notifyObservers(theAction);
   }

@@ -1,6 +1,8 @@
 package clients.cashier;
 
 
+import middle.StockException;
+
 /**
  * The Cashier Controller
  * @author M A Smith (c) June 2014
@@ -44,7 +46,7 @@ public class CashierController
     model.doBought();
   }
 
-  public void doCancel() {
+  public void doCancel() throws StockException {
     model.doCancel();
   }
 }

@@ -3,6 +3,7 @@ package clients.cashier;
 import catalogue.Basket;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
+import middle.StockException;
 import middle.StockReadWriter;
 
 import javax.swing.*;
@@ -93,7 +94,13 @@ public class CashierView implements Observer
     theBtCancel.setBounds(16,25+60*3, 80, 40);
     theBtCancel.setBackground(red);
     theBtCancel.addActionListener(
-            e -> cont.doCancel());
+            e -> {
+              try {
+                cont.doCancel();
+              } catch (StockException ex) {
+                throw new RuntimeException(ex);
+              }
+            });
     cp.add(theBtCancel);
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
