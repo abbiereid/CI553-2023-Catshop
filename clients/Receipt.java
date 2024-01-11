@@ -29,7 +29,7 @@ public class Receipt {
     public void setProducts(ArrayList<String> products) { this.products = products; }
     public ArrayList<String> getProducts() { return products; }
 
-    public void setProductNo(ArrayList<String> productNumbers) { this.productNumbers = productNumbers; }
+    public void setProductNumbers(ArrayList<String> productNumbers) { this.productNumbers = productNumbers; }
     public ArrayList<String> getProductNumbers() { return productNumbers; }
 
     public void printReceipt(){

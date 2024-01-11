@@ -53,16 +53,16 @@ public class ReturnsModel extends Observable {
       }
     }
 
-
+    System.out.println(theReceipt);
     ArrayList<String> productNumbers = theReceipt.getProductNumbers();
+    System.out.println(productNumbers);
+
     double price = theReceipt.getPrice();
 
     CashierModel.minusTotalIncome((int) price);
 
     for (String pn : productNumbers) {
-      System.out.println(pn);
-      theStock.addStock(pn, 1);
-      setChanged();
+      theStock.addStock(pn,1);
     }
 
     numberOfReturns++;
