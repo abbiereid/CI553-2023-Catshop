@@ -108,6 +108,24 @@ public class StockR implements StockReader
     }
   }
 
+  @Override
+  public boolean existsByName(String desc) throws StockException {
+    try
+    {
+      ResultSet rs   = getStatementObject().executeQuery(
+              "select price from ProductTable " +
+                      "  where  ProductTable.description = '" + desc + "'"
+      );
+      boolean res = rs.next();
+      DEBUG.trace( "DB StockR: exists(%s) -> %s",
+              desc, ( res ? "T" : "F" ) );
+      return res;
+    } catch ( SQLException e )
+    {
+      throw new StockException( "SQL exists: " + e.getMessage() );
+    }
+  }
+
   /**
    * Returns details about the product in the stock list.
    *  Assumed to exist in database.

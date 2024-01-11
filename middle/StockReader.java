@@ -21,6 +21,8 @@ public interface StockReader {
   */
  boolean exists(String pNum) throws StockException;
 
+ boolean existsByName(String desc) throws StockException;
+
  /**
   * Returns details about the product in the stock list
   *

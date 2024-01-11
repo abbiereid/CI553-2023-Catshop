@@ -68,6 +68,20 @@ public class F_StockR implements StockReader
     }
   }
 
+  public synchronized boolean existsByName( String name ) throws StockException
+  {
+    DEBUG.trace("F_StockR:exists()" );
+    try
+    {
+      if ( aR_StockR == null ) connect();
+      return aR_StockR.exists( name );
+    } catch ( RemoteException e )
+    {
+      aR_StockR = null;
+      throw new StockException( "Net: " + e.getMessage() );
+    }
+  }
+
   /**
    * Returns details about the product in the stock list
    * @return StockNumber, Description, Price, Quantity
