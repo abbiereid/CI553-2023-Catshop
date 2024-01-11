@@ -26,6 +26,7 @@ public class CollectView implements Observer
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCollect= new JButton( COLLECT );
+    private final Color yellow = new Color(255,255,0);
  
   private OrderProcessing   theOrder = null;
   private CollectController cont     = null;
@@ -55,6 +56,7 @@ public class CollectView implements Observer
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
     theBtCollect.setBounds( 16, 25+60*0, 80, 40 );  // Check Button
+      theBtCollect.setBackground(yellow);
     theBtCollect.addActionListener(                 // Call back code
       e -> cont.doCollect( theInput.getText()) );
     cp.add( theBtCollect );                         //  Add to canvas

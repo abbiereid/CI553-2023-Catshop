@@ -2,25 +2,18 @@ package clients.returns;
 
 import catalogue.Product;
 import clients.Receipt;
-import clients.backDoor.BackDoorModel;
 import clients.cashier.CashierModel;
-import debug.DEBUG;
 import middle.*;
 
 import java.util.*;
 
-/**
- * Implements the Model of the collection client
- * @author  Mike Smith University of Brighton
- * @version 1.0
- */
 
 public class ReturnsModel extends Observable {
   private String theAction = "";
   private String theOutput = "";
   private OrderProcessing theOrder = null;
-  private HashMap<String, String> orderList = CashierModel.getOrderList();
-  private StockReadWriter theStock = null;
+  private final HashMap<String, String> orderList = CashierModel.getOrderList();
+  private final StockReadWriter theStock;
   private String results = "";
   private static int numberOfReturns;
 
@@ -39,13 +32,12 @@ public class ReturnsModel extends Observable {
       Product pr = theStock.getDetails(pn);
       results = "Order Number "+ on + ": " + pr.getDescription() + " , £" + pr.getPrice();
       theAction = "Results: ";
-      theOutput = theAction;
     }  else {
       theAction = "Order #" + on + " not found in collected orders";
-      theOutput = theAction;
     }
+      theOutput = theAction;
 
-    setChanged();
+      setChanged();
     notifyObservers(theAction);
   }
 
@@ -61,12 +53,14 @@ public class ReturnsModel extends Observable {
       }
     }
 
+
     ArrayList<String> productNumbers = theReceipt.getProductNumbers();
     double price = theReceipt.getPrice();
 
     CashierModel.minusTotalIncome((int) price);
 
     for (String pn : productNumbers) {
+      System.out.println(pn);
       theStock.addStock(pn, 1);
       setChanged();
     }
